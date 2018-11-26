@@ -1,3 +1,7 @@
+[camera]
+path = /base/path/for/timelapse
+url = myhosturl
 [aws]
-url: "my host url"
-bounceTimeSeconds: 10
+url = myhosturl
+bounceTimeSeconds = 10
+token = tokenforcallingurl
