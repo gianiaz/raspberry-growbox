@@ -20,12 +20,12 @@ class Led:
     def powerOn(self):
         GPIO.output(self.pin, GPIO.HIGH)  # led off
         self.powered = True
-        print '...led on'
+        # print '...led on'
 
     def powerOff(self):
         GPIO.output(self.pin, GPIO.LOW)  # led on
         self.powered = False
-        print 'led off...'
+        # print 'led off...'
 
 
     def toggle(self):
@@ -51,7 +51,7 @@ class Led:
 
     def blink(self, duration):
             self.blinking = True
-            print("Start blinking")
+            # print("Start blinking")
             self.blinkingDuration = duration
             self.blinkStart = self.timestampMillisec64()
 

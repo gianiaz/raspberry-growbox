@@ -1,0 +1,3 @@
+[aws]
+url: "my host url"
+bounceTimeSeconds: 10
