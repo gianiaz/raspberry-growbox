@@ -1,4 +1,5 @@
 *.pyc
 .idea
 log.txt
-config.txt
+config.ini
+*.pyc
