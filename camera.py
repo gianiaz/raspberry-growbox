@@ -39,6 +39,7 @@ class Camera:
                 try:
                     response = requests.post(self.url, files={'last': f})
                     print self.moduleName + " Response: "+response.text
+                    self.lastAction = time.time()
                 except requests.exceptions.Timeout:
                     print self.moduleName + "Timeout"
                 except requests.exceptions.TooManyRedirects:
