@@ -7,8 +7,8 @@ class aws:
     def __init__(self):
         self.lastAction = self.timestampMillisec64()
         self.bounceTime = 300000; # five minutes
-        logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
-        self.logPrefix = '[AWS] - ';
+        logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
+        self.logPrefix = '[AWS] ';
 
     def setUrl(self, url):
         self.url = url
@@ -24,12 +24,12 @@ class aws:
             # send data
             try:
                 url = self.url + '&temperature='+str(temperature)+"&humidity="+str(humidity)+"&is_day="+str(is_day)+"&hygrometer1="+str(hygrometer1)+"&hygrometer2="+str(hygrometer2)
-                logging.info(self.logPrefix + " - " + "Sending to "+ url)
+                logging.info(self.logPrefix + "Sending to "+ url)
                 response = urllib2.urlopen(url);
                 # print response.read();
                 led.blink(2);
                 self.lastAction = self.timestampMillisec64()
             except urllib2.URLError:
-                print "Connection error"
+                logging.error(self.logPrefix+ "Connection error")
             except urllib2.HTTPError:
-                print "Http Error"
+                logging.error(self.logPrefix+ "Http Error")
