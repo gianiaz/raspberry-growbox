@@ -31,5 +31,5 @@ class aws:
                 self.lastAction = self.timestampMillisec64()
             except urllib2.URLError:
                 print "Connection error"
-            except urllib2.HTTPErorr:
+            except urllib2.HTTPError:
                 print "Http Error"
