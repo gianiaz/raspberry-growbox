@@ -24,7 +24,7 @@ class aws:
             # send data
             try:
                 url = self.url + '&temperature='+str(temperature)+"&humidity="+str(humidity)+"&is_day="+str(is_day)+"&hygrometer1="+str(hygrometer1)+"&hygrometer2="+str(hygrometer2)
-                loggin.info(self.logPrefix + " - " + "Sending to "+ url)
+                logging.info(self.logPrefix + " - " + "Sending to "+ url)
                 response = urllib2.urlopen(url);
                 # print response.read();
                 led.blink(2);
