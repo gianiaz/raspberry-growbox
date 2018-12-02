@@ -8,6 +8,10 @@ from serialreader import serialReader
 from led import Led
 import RPi.GPIO as GPIO
 from camera import Camera
+import logging
+
+logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG, filename="growbox.log")
+
 
 awsSender = aws();
 ser = serialReader(10, '/dev/ttyACM0')
@@ -19,15 +23,18 @@ hygrometer2 = 0
 ledActivity = Led(11, 50)
 ledStatus = Led(13,500)
 camera = Camera(360)
+#camera = Camera(60)
 
 def setUp():
     global config
     config = ConfigParser.ConfigParser()
+    logging.info('[MAIN] Starting up...');
     try:
         config.read('config.ini')
         url = config.get('aws', 'url')+"?token="+config.get('aws', 'token')
         bounceTimeSeconds = config.get('aws', 'bounceTimeSeconds');
         awsSender.setUrl(url)
+        #bounceTimeSeconds = 10
         awsSender.setBounceTime(bounceTimeSeconds)
         camera.setBasePath(config.get('camera', 'path'))
         cameraUrl = config.get('camera', 'url')+"?token="+config.get('aws', 'token')

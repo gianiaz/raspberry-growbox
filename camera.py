@@ -3,6 +3,7 @@ import time
 from datetime import datetime
 import os.path
 import requests
+import logging
 
 camera = PiCamera()
 camera.rotation = 180
@@ -11,7 +12,8 @@ class Camera:
     def __init__(self, bounceTime):
         self.bounceTimeSeconds = bounceTime
         self.lastAction = time.time()
-        self.moduleName = '[CAMERA] '
+        self.logPrefix = '[CAMERA] ';
+        logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG, filename="growbox.log")
 
     def setBasePath(self, basePath):
         self.basePath = basePath
@@ -24,25 +26,22 @@ class Camera:
             dest = self.basePath + str(datetime.now().isocalendar()[1])
             if(not os.path.exists(dest)):
                 os.mkdir(dest);
-                print self.moduleName + "Directory "+ dest + "created"
+                logging.info(self.logPrefix + "Directory "+ dest + "created")
 
             dest += "/"+str(int(time.time()))+".jpg"
             camera.start_preview()
             time.sleep(2)
             camera.capture(dest)
             camera.stop_preview()
-
-            time.sleep(2)
-            print "[CAMERA] Sending photo to "+self.url
-
+            logging.info(self.logPrefix + "Sending photo to "+self.url)
             with open(dest, 'rb') as f:
                 try:
                     response = requests.post(self.url, files={'last': f})
-                    print self.moduleName + " Response: "+response.text
+                    logging.info(self.logPrefix + "Response: "+response.text)
                     self.lastAction = time.time()
                 except requests.exceptions.Timeout:
-                    print self.moduleName + "Timeout"
+                    logging.error(self.logPrefix + "Timeout")
                 except requests.exceptions.TooManyRedirects:
-                    print self.moduleName + "Too many Redirects"
+                    logging.error(self.logPrefix + "Too many Redirects")
                 except requests.exceptions.RequestException as e:
-                    print self.moduleName + "Connection failed"
+                    logging.error(self.logPrefix + "Connection failed")

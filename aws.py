@@ -7,8 +7,8 @@ class aws:
     def __init__(self):
         self.lastAction = self.timestampMillisec64()
         self.bounceTime = 300000; # five minutes
-        logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
         self.logPrefix = '[AWS] ';
+        logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG, filename="growbox.log")
 
     def setUrl(self, url):
         self.url = url
