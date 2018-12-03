@@ -19,7 +19,7 @@ def main(argv):
             print 'create-video.py -d <directory>'
             sys.exit()
         elif opt in ("-d", "--dir"):
-            dir = arg
+            dir = arg.rstrip('/')
 
 
     images = [img for img in os.listdir(dir) if img.endswith(".jpg")]
@@ -54,17 +54,12 @@ def main(argv):
             img.save(dest+'/'+image)
             print "Processed image for "+datetime.utcfromtimestamp(timestamp).strftime('%d/%m/%Y - %H:%M')
 
-    command = 'ls -1 '+dir+'/temp/*.jpg | sort > /tmp/files.txt'
-    os.system(command)
-
-    command = 'mencoder -nosound -ovc x264 -lavcopts vcodec=mpeg4 -o '+dir+'/'+dir.split('/').pop()+'.mp4 -mf type=jpeg:fps=30 mf://@/tmp/files.txt'
+    command = 'ffmpeg -r 24 -pattern_type glob -i "'+dir+'/temp/*.jpg" -s hd1080 -vcodec libx264 '+dir+'/'+dir.split('/').pop()+'.mp4'
     os.system(command)
 
     shutil.rmtree(dir+'/temp/')
-    shutil.rmtree(dir+'/discarded/')
-
-
-
+    if(os.path.exists(dir+'/discarded/')):
+        shutil.rmtree(dir+'/discarded/')
 
 if __name__ == "__main__":
    main(sys.argv[1:])
