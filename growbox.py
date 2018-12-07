@@ -18,6 +18,8 @@ ser = serialReader(10, '/dev/ttyACM0')
 temperature = 0
 humidity = 0
 is_day = 0
+fan_active = 0;
+humidifier_active = 0;
 hygrometer1 = 0
 hygrometer2 = 0
 ledActivity = Led(11, 50)
@@ -55,6 +57,8 @@ def loop():
         global is_day
         global hygrometer1
         global hygrometer2
+        global fan_active
+        global humidifier_active
 
         line = ser.listen('\[growbox\](.*)\[\/growbox\]')
         if(line != None):
@@ -64,8 +68,10 @@ def loop():
             is_day = data[2]
             hygrometer1 = data[3]
             hygrometer2 = data[4]
+            fan_active = data[5]
+            humidifier_active = data[6]
 
-        awsSender.updateStatus(temperature, humidity, is_day, hygrometer1, hygrometer2, ledActivity)
+        awsSender.updateStatus(temperature, humidity, is_day, hygrometer1, hygrometer2, ledActivity, fan_active, humidifier_active)
         ledActivity.updateStatus()
         camera.updateStatus(int(is_day))
 
