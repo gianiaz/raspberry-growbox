@@ -71,7 +71,7 @@ def loop():
             fan_active = data[5]
             humidifier_active = data[6]
 
-        awsSender.updateStatus(temperature, humidity, is_day, hygrometer1, hygrometer2, ledActivity, fan_active, humidifier_active)
+        awsSender.updateStatus(temperature, humidity, is_day, hygrometer1, hygrometer2, fan_active, humidifier_active,ledActivity)
         ledActivity.updateStatus()
         camera.updateStatus(int(is_day))
 

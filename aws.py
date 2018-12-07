@@ -19,11 +19,11 @@ class aws:
     def timestampMillisec64(self):
         return int((datetime.utcnow() - datetime(1970, 1, 1)).total_seconds() * 1000)
 
-    def updateStatus(self, temperature, humidity, is_day, hygrometer1, hygrometer2, led):
+    def updateStatus(self, temperature, humidity, is_day, hygrometer1, hygrometer2, fan_active, humidifier_active, led):
         if (self.lastAction + self.bounceTime) < self.timestampMillisec64():
             # send data
             try:
-                url = self.url + '&temperature='+str(temperature)+"&humidity="+str(humidity)+"&is_day="+str(is_day)+"&hygrometer1="+str(hygrometer1)+"&hygrometer2="+str(hygrometer2)
+                url = self.url + '&temperature='+str(temperature)+"&humidity="+str(humidity)+"&is_day="+str(is_day)+"&hygrometer1="+str(hygrometer1)+"&hygrometer2="+str(hygrometer2)+"&fan_active="+str(fan_active)+"&humidifier_active="+str(humidifier_active);
                 logging.info(self.logPrefix + "Sending to "+ url)
                 response = urllib2.urlopen(url);
                 # print response.read();
